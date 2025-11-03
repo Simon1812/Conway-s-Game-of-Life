@@ -15,6 +15,8 @@ class Game:
             self.grid_size = (grid_size[0], grid_size[1])
         else:
             raise ValueError("Invalid grid size in config")
+        self.alive_char = "███" # config["alive_char"]
+        self.dead_char = " ‧ " # config["dead_char"]
         self.max_steps = config["max_steps"]
         self.visualization_mode = config["visualization"]["mode"]
 
@@ -35,9 +37,10 @@ class Game:
 
     def visualize(self, grid):
         if self.visualization_mode == "text":
-            print(grid)
+            for row in grid:
+                print("".join([self.alive_char if cell else self.dead_char for cell in row]))
         elif self.visualization_mode == "graphical":
-            plt.imshow(grid, cmap='binary')
+            plt.imshow(grid, cmap="binary")
             plt.show()
         else:
             raise ValueError("Unknown visualization mode")

@@ -3,3 +3,5 @@ max_steps: 20
 visualization:
   mode: "text" # Options: "text", "graphical"
 
+# alive_char: "███"
+# dead_char: " ‧ "
