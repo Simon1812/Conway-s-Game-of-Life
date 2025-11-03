@@ -1,0 +1,5 @@
+grid_size: 20
+max_steps: 200
+visualization:
+  mode: "text" # Options: "text", "graphical"
+
