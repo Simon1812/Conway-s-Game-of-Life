@@ -1,12 +1,12 @@
-grid_size: 20
+grid_size: 50
 max_steps: 20
 visualization:
-  mode: "text" # Options: "text", "graphical", "none"
+  mode: "graphical" # Options: "text", "graphical", "none"
 
 # alive_char: "███"
 # dead_char: " ‧ "
 sleep_duration: 0.5
 initialization_mode: "random" # Options: "random", "file", "input"
-alive_cell_probability: 0.3 # only used if initialization_mode is "random"
+alive_cell_probability: 0.1 # only used if initialization_mode is "random"
 input_file: "starting_grids/playground20,20set1.npy" # only used if initialization_mode is "file"
 update_mode: "all" # Options: "all", "alive_based"
