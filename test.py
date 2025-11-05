@@ -12,6 +12,7 @@ class testgame(unittest.TestCase):
             
             
     def test_setup(self):
+        # Test game initialization
         with open("config.yaml", "r") as f:
             config = yaml.safe_load(f)
         self.game = Game(config)

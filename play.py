@@ -25,6 +25,11 @@ class Game:
             self.input_file = config["input_file"]
     
     def get_input_coordinates_from_console(self):
+        """ this Methode gets the alive cells base on user inputs entered in the console
+
+        Returns:
+            np.array: the playing grid with the alive cells set by the user
+        """
         print("Input the alive cells in the format: x1,y1 or [x1,y1,x2,y2,.....] or \"done\" to finish")
         coords = []
         while True:
@@ -58,6 +63,14 @@ class Game:
         return grid
                     
     def init_grid(self):
+        """ this Methode initializes the playing grid based on the configuration file
+
+        Raises:
+            ValueError: if the initialization mode is not supported
+
+        Returns:
+            np.array: the initial playing grid
+        """
         grid = np.zeros((self.grid_size[0]+2, self.grid_size[1]+2), dtype=int)
         if self.initialization_mode == "file":
             playgrid = np.load(self.input_file)
@@ -84,6 +97,14 @@ class Game:
         plt.show()
 
     def visualize(self, grid):
+        """ This Methode visualizes the current playing grid
+
+        Args:
+            grid (np.array): the current playing grid
+
+        Raises:
+            ValueError: if the visualization mode is unknown
+        """
         if self.visualization_mode == "text":
             for row in grid:
                 print("".join([self.alive_char if cell else self.dead_char for cell in row]))
@@ -94,6 +115,14 @@ class Game:
             raise ValueError("Unknown visualization mode")
         
     def update_grid(self, grid):
+        """ This Methode makes one evaluation step
+
+        Args:
+            grid (np.array): the current playing grid
+
+        Returns:
+            np.array: the updated playing grid
+        """
         # 1. Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
         # 2. Any live cell with two or three live neighbours lives on to the next generation.
         # 3. Any live cell with more than three live neighbours dies, as if by overpopulation.
