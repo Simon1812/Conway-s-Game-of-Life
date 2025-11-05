@@ -6,3 +6,6 @@ visualization:
 # alive_char: "███"
 # dead_char: " ‧ "
 sleep_duration: 0.5
+initialization_mode: "file" # Options: "random", "file", "input"
+alive_cell_probability: 0.3 # only used if initialization_mode is "random"
+input_file: "starting_grids/playground20,20set1.npy" # only used if initialization_mode is "file"SS

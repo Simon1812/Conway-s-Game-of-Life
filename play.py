@@ -18,12 +18,59 @@ class Game:
         self.max_steps = config["max_steps"]
         self.visualization_mode = config["visualization"]["mode"]
         self.sleep_duration = config["sleep_duration"]
-
+        self.initialization_mode = config["initialization_mode"]
+        if self.initialization_mode == "random":
+            self.alive_cell_probability = config["alive_cell_probability"]
+        elif self.initialization_mode == "file":
+            self.input_file = config["input_file"]
+    
+    def get_input_coordinates_from_console(self):
+        print("Input the alive cells in the format: x1,y1 or [x1,y1,x2,y2,.....] or \"done\" to finish")
+        coords = []
+        while True:
+            input_str = input("Enter coordinates: ")
+            if input_str.lower() == "done":
+                break
+            try:
+                if "[" in input_str and "]" in input_str:
+                    tmp_coords = []
+                    parts = input_str.strip("[]").split(",")
+                    for i in range(0, len(parts), 2):
+                        x, y = int(parts[i]), int(parts[i+1])
+                        # use tmp_coords to avoid modifying coords while iterating
+                        # it is possible that later inputs are invalid
+                        # => only modify coords if all inputs are valid
+                        tmp_coords.append((x, y))
+                    coords.extend(tmp_coords)
+                elif "," in input_str:
+                    x, y = input_str.split(",")
+                    coords.append((int(x), int(y)))
+                else:
+                    print("Invalid input format")
+            except Exception as e:
+                print(f"Error parsing input: {e}")
+        grid = np.zeros(self.grid_size, dtype=int)
+        for x,y in coords:
+            if 0 <= x < self.grid_size[0] and 0 <= y < self.grid_size[1]:
+                grid[x, y] = 1
+            else:
+                print(f"Coordinates ({x},{y}) are outside the boundaries of the grid")
+        return grid
+                    
     def init_grid(self):
-        tmp = np.zeros((self.grid_size[0]+2, self.grid_size[1]+2), dtype=int)
-        grid = np.random.choice([0, 1], size=self.grid_size)
-        tmp[1:-1, 1:-1] = grid
-        return tmp
+        grid = np.zeros((self.grid_size[0]+2, self.grid_size[1]+2), dtype=int)
+        if self.initialization_mode == "file":
+            playgrid = np.load(self.input_file)
+        elif self.initialization_mode == "input":
+            playgrid = self.get_input_coordinates_from_console()
+        elif self.initialization_mode == "random":
+            probabilities = [1 - self.alive_cell_probability, self.alive_cell_probability]
+            playgrid = np.random.choice([0, 1], size=self.grid_size, p=probabilities)
+        else:
+            raise ValueError(f"Initialization mode {self.initialization_mode} is not supported")
+        
+        grid[1:-1, 1:-1] = playgrid
+        return grid
 
     def start(self):
         print(f"Starting Game of Life with grid size: {self.grid_size}, max steps: {self.max_steps}, visualization mode: {self.visualization_mode}")
