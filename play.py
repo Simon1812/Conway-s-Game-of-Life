@@ -62,6 +62,7 @@ class Game:
         grid = np.zeros(self.grid_size, dtype=int)
         for x, y in coords:
             if 0 <= x < self.grid_size[0] and 0 <= y < self.grid_size[1]:
+                # numpy arrays are accessed as [height, width] => [y,x]
                 grid[y, x] = 1
             else:
                 print(f"Coordinates ({x},{y}) are outside the boundaries of the grid")
