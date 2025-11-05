@@ -196,7 +196,7 @@ class Game:
 
             # Collect all neighboring coordinates of alive cells
             if len(self.alive_cell_coords) > 0:
-                coords_to_check = self.alive_cell_coords.copy()
+                coords_to_check = set()
                 for coord in self.alive_cell_coords:
                     x, y = coord
                     for dx, dy in [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]:
@@ -204,9 +204,11 @@ class Game:
                         if 0 < new_X < grid.shape[1]-1 and 0 < new_Y < grid.shape[0]-1:
                             # coordinates need to be in the initial grid boundaries
                             if (new_X, new_Y) not in coords_to_check:
-                                coords_to_check.append((new_X, new_Y))
-                    coords_to_check.append((x, y))  # also check the cell itself   
-                
+                                coords_to_check.add((new_X, new_Y))
+                    if (x, y) not in coords_to_check:
+                        coords_to_check.add((x, y))  # also check the cell itself
+                           
+                self.alive_cell_coords = []  # reset for the next iteration
                 for x, y in coords_to_check:
                     neighbours_sum = self.get_neighbour_sum(grid, x, y)
                     self.update_cell_state(grid, new_grid, x, y, neighbours_sum)   
