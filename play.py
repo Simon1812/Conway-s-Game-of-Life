@@ -60,9 +60,9 @@ class Game:
             except Exception as e:
                 print(f"Error parsing input: {e}")
         grid = np.zeros(self.grid_size, dtype=int)
-        for x,y in coords:
+        for x, y in coords:
             if 0 <= x < self.grid_size[0] and 0 <= y < self.grid_size[1]:
-                grid[x, y] = 1
+                grid[y, x] = 1
             else:
                 print(f"Coordinates ({x},{y}) are outside the boundaries of the grid")
         return grid
