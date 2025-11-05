@@ -116,6 +116,8 @@ class Game:
         elif self.visualization_mode == "graphical":
             plt.imshow(grid, cmap="binary")
             plt.pause(0.05)
+        elif self.visualization_mode == "none":
+            return
         else:
             raise ValueError("Unknown visualization mode")
      

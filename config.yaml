@@ -1,7 +1,7 @@
 grid_size: 20
 max_steps: 20
 visualization:
-  mode: "text" # Options: "text", "graphical", None
+  mode: "text" # Options: "text", "graphical", "none"
 
 # alive_char: "███"
 # dead_char: " ‧ "
